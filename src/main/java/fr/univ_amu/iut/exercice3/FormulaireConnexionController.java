@@ -28,17 +28,21 @@ public class FormulaireConnexionController {
 
   @FXML
   private void initialize() {
-    // TODO exercice 3 : brancher la vue sur le ViewModel.
+    // exercice 3 : brancher la vue sur le ViewModel.
     //
     // - champIdentifiant <-> identifiantProperty (bidirectionnel)
+    champIdentifiant.textProperty().bindBidirectional(viewModel.identifiantProperty());
     // - champMotDePasse  <-> motDePasseProperty  (bidirectionnel)
+    champMotDePasse.textProperty().bindBidirectional(viewModel.motDePasseProperty());
     // - labelStatut      <-  statutProperty      (sens unique)
+    labelStatut.textProperty().bind(viewModel.statutProperty());
     // - boutonValider désactivé tant que le formulaire n'est pas validable :
-    //     boutonValider.disableProperty().bind(viewModel.validableProperty().not());
+    boutonValider.disableProperty().bind(viewModel.validableProperty().not());
   }
 
   @FXML
   private void surValider() {
-    // TODO exercice 3 : déclencher la commande de connexion.
+    // exercice 3 : déclencher la commande de connexion.
+    viewModel.connecterCommand();
   }
 }
