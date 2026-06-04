@@ -59,9 +59,10 @@ public class QualificationController {
     //    durée (en s), statut.
     colHorodatage.setCellValueFactory(
         c -> new SimpleStringProperty(String.valueOf(c.getValue().horodatageProperty())));
-    // colFrequence.setCellValueFactory(c -> new
-    // SimpleStringProperty(c.getValue().getFrequenceDominanteKHz()));
-    // colDuree.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getDureeSecondes()));
+    colFrequence.setCellValueFactory(
+        c -> new SimpleStringProperty(String.valueOf(c.getValue().getFrequenceDominanteKHz())));
+    colDuree.setCellValueFactory(
+        c -> new SimpleStringProperty(String.valueOf(c.getValue().getDureeSecondes())));
     colStatut.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getStatut()));
     // 2.
     tableSequences.setItems(viewModel.sequencesProperty());
