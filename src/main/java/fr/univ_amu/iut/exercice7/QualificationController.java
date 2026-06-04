@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import fr.nedjar.vigiechiro.audio.AudioView;
 import java.nio.file.Path;
 import java.time.format.DateTimeFormatter;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -52,19 +53,33 @@ public class QualificationController {
               }
             });
 
-    // TODO exercice 7 : câbler entièrement la vue sur le ViewModel.
+    // exercice 7 : câbler entièrement la vue sur le ViewModel.
     //
     // 1. Colonnes (cell value factory) : horodatage (HH:mm), fréquence (%.1f kHz),
     //    durée (en s), statut.
-    // 2. tableSequences.setItems(viewModel.sequencesProperty());
-    // 3. Relayer la sélection : viewModel.sequenceSelectionneeProperty()
-    //       .bind(tableSequences.getSelectionModel().selectedItemProperty());
+    colHorodatage.setCellValueFactory(
+        c -> new SimpleStringProperty(String.valueOf(c.getValue().horodatageProperty())));
+    // colFrequence.setCellValueFactory(c -> new
+    // SimpleStringProperty(c.getValue().getFrequenceDominanteKHz()));
+    // colDuree.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getDureeSecondes()));
+    colStatut.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getStatut()));
+    // 2.
+    tableSequences.setItems(viewModel.sequencesProperty());
+    // 3. Relayer la sélection :
+    viewModel
+        .sequenceSelectionneeProperty()
+        .bind(tableSequences.getSelectionModel().selectedItemProperty());
     // 4. labelSelection <- descriptionSelectionProperty (sens unique).
+    labelSelection.textProperty().bind(viewModel.descriptionSelectionProperty());
     // 5. boutonEcouter désactivé quand rien n'est sélectionné :
-    //       boutonEcouter.disableProperty().bind(viewModel.peutEcouterProperty().not());
+    boutonEcouter.disableProperty().bind(viewModel.peutEcouterProperty().not());
     // 6. zoneCommentaire <-> commentaireProperty (bidirectionnel).
+    zoneCommentaire.textProperty().bind(viewModel.commentaireProperty());
     // 7. choiceVerdict : items = viewModel.listeVerdicts(), valeur <-> verdictSaisiProperty.
+    choiceVerdict.getItems().setAll(viewModel.listeVerdicts());
+    choiceVerdict.valueProperty().bindBidirectional(viewModel.verdictSaisiProperty());
     // 8. labelVerdictGlobal <- verdictGlobalLibelleProperty.
+    labelVerdictGlobal.textProperty().bind(viewModel.verdictGlobalLibelleProperty());
   }
 
   @FXML
